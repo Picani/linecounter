@@ -1,0 +1,15 @@
+[package]
+name = "linecounter"
+version = "0.1.0"
+authors = ["Picani <picani@laposte.net>"]
+edition = "2018"
+description = "Count lines (like wc -l) but easier and with compression support"
+license = "WTFPL"
+categories = ["command-line-utilities", "filesystem"]
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tree_magic = "0.2"
+flate2 = "1.0"
+structopt = "0.3"
+stybulate = "1"
