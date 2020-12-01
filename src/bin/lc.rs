@@ -10,13 +10,12 @@ use linecounter::count_lines;
 #[derive(StructOpt)]
 struct Opt {
     /// The file(s) to read
+    #[structopt(required=true)]
     file: Vec<PathBuf>,
 }
 
 fn run(opt: Opt) -> std::io::Result<()> {
-    if opt.file.is_empty() {
-        return Err(Error::new(ErrorKind::InvalidInput, "Missing file!"));
-    } else if opt.file.len() == 1 {
+    if opt.file.len() == 1 {
         let nb_lines = count_lines(&opt.file[0])?;
         println!("{}", nb_lines);
     } else {
