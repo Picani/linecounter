@@ -8,17 +8,14 @@ use flate2::read::GzDecoder;
 /// Count the number of lines in *input*.
 ///
 /// Return it or an error if the data are not valid UTF-8.
-fn nb_lines(mut input: impl BufRead) -> std::io::Result<usize> {
+fn nb_lines(input: impl BufRead) -> std::io::Result<usize> {
     let mut res = 0;
-    let mut buf = String::new();
 
-    loop {
-        let num_bytes = input.read_line(&mut buf)?;
-        if num_bytes == 0 {
-            break;
+    for line in input.lines() {
+        match line {
+            Ok(_) => res += 1,
+            Err(e) => return Err(e)
         }
-        res += 1;
-        buf.clear();
     }
 
     Ok(res)
