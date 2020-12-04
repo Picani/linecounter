@@ -1,5 +1,8 @@
-- recursive directory support.
-- statistics support (min, max, mean, stddev line sizes).
-- ignore empty lines, lines starting with a fixed pattern, keep only lines
-  starting with a fixed pattern.
- 
+- Add recursive directory support.
+- Add option to ignore empty lines and/or lines starting with a fixed pattern.
+- Add option to output to CSV format.
+- Add option to output to JSON format.
+- Add support for bzip2.
+- Add support for xz.
+- Add support for tar archives, treating them as directories.
+- Add support for zip archives, treating them as directories.
