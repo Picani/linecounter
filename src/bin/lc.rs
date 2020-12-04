@@ -13,10 +13,18 @@ struct Opt {
     /// The file(s) to read
     #[structopt(required=true)]
     file: Vec<PathBuf>,
+
+    /// Count only the lines starting with that prefix
+    #[structopt(short = "p", long = "prefix")]
+    prefix: Option<String>,
 }
 
 fn run(opt: Opt) -> std::io::Result<()> {
-    let lines_param = CountParameters::All;
+    let lines_param = if let Some(prefix) = opt.prefix {
+        CountParameters::KeepPrefix(prefix)
+    } else {
+        CountParameters::All
+    };
 
     if opt.file.len() == 1 {
         let f = open(&opt.file[0])?;
