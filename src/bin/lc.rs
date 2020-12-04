@@ -1,11 +1,10 @@
-use std::io::{Error, ErrorKind};
 use std::path::PathBuf;
 
 use structopt::StructOpt;
 use structopt::clap::AppSettings;
 use stybulate::{Cell, Style, Table};
 
-use linecounter::count_lines;
+use linecounter::{CountParameters, nb_lines, open};
 
 /// Print the number of lines for each file.
 #[derive(StructOpt)]
@@ -17,13 +16,17 @@ struct Opt {
 }
 
 fn run(opt: Opt) -> std::io::Result<()> {
+    let lines_param = CountParameters::All;
+
     if opt.file.len() == 1 {
-        let nb_lines = count_lines(&opt.file[0])?;
-        println!("{}", nb_lines);
+        let f = open(&opt.file[0])?;
+        let nb = nb_lines(f, &lines_param)?;
+        println!("{}", nb);
     } else {
         let mut results = vec![];
         for path in opt.file {
-            let nb = count_lines(&path);
+            let f = open(&path)?;
+            let nb = nb_lines(f, &lines_param);
             match nb {
                 Ok(n) => results.push(vec![
                     Cell::from(&path.display().to_string()),
