@@ -2,12 +2,14 @@ use std::io::{Error, ErrorKind};
 use std::path::PathBuf;
 
 use structopt::StructOpt;
+use structopt::clap::AppSettings;
 use stybulate::{Cell, Style, Table};
 
 use linecounter::count_lines;
 
 /// Print the number of lines for each file.
 #[derive(StructOpt)]
+#[structopt(settings = &[AppSettings::ColoredHelp])]
 struct Opt {
     /// The file(s) to read
     #[structopt(required=true)]
