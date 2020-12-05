@@ -17,11 +17,15 @@ struct Opt {
     /// Count only the lines starting with that prefix
     #[structopt(short = "p", long = "prefix")]
     prefix: Option<String>,
+
+    /// Remove leading whitespace before to look for the prefix
+    #[structopt(short = "t", long = "trim", requires = "prefix")]
+    trim: bool,
 }
 
 fn run(opt: Opt) -> std::io::Result<()> {
     let lines_param = if let Some(prefix) = opt.prefix {
-        CountParameters::KeepPrefix(prefix)
+        CountParameters::KeepPrefix(prefix, opt.trim)
     } else {
         CountParameters::All
     };
