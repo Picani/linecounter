@@ -37,15 +37,28 @@ fn run(opt: Opt) -> std::io::Result<()> {
     } else {
         let mut results = vec![];
         for path in opt.file {
-            let f = open(&path)?;
-            let nb = nb_lines(f, &lines_param);
+            let nb;
+            match open(&path) {
+                Ok(f) => {
+                    nb = nb_lines(f, &lines_param);
+                },
+                Err(e) => {
+                    eprintln!("{}: {}", path.display(), e);
+                    continue;
+                }
+            }
+
             match nb {
-                Ok(n) => results.push(vec![
-                    Cell::from(&path.display().to_string()),
-                    Cell::from(&n.to_string()),
-                ]),
-                Err(e) => eprintln!("{}: {}", path.display(), e),
-            };
+                Ok(n) => {
+                    results.push(vec![
+                        Cell::from(&path.display().to_string()),
+                        Cell::from(&n.to_string()),
+                    ]);
+                },
+                Err(e) => {
+                    eprintln!("{}: {}", path.display(), e);
+                }
+            }
         }
         let table = Table::new(Style::Plain, results, None);
         println!("{}", table.tabulate());
