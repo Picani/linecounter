@@ -1,5 +1,10 @@
 use std::io::BufRead;
 
+/// Represent the parameters used to know what lines to count.
+/// - **All** means count all lines.
+/// - **KeepPrefix** means count only lines starting with the provided
+///   prefix (the `String` value), optionaly removing the leading
+///   whitespaces (the `bool` value).
 pub enum CountParameters {
     All,
     KeepPrefix(String, bool),
