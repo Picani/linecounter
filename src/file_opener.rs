@@ -3,6 +3,7 @@ use std::io::prelude::*;
 use std::io::{BufReader, Error, ErrorKind};
 use std::path::PathBuf;
 
+use bzip2::read::BzDecoder;
 use flate2::read::GzDecoder;
 
 
@@ -23,6 +24,9 @@ pub fn open(path: &PathBuf) -> std::io::Result<Box<dyn BufRead>> {
         } else if tree_magic::match_filepath("application/gzip", &path) {
             let d = GzDecoder::new(f);
             Ok(Box::new( BufReader::new(d)))
+        } else if tree_magic::match_filepath("application/x-bzip2", &path) {
+            let d = BzDecoder::new(f);
+            Ok(Box::new(BufReader::new(d)))
         } else {
             let mime_type = tree_magic::from_filepath(&path);
             Err(Error::new(

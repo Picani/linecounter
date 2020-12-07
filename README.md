@@ -17,6 +17,7 @@ For now, it's already faster than things like `zcat myfile.gz | wc -l` or
 Supported compression format:
 
 * `gzip`
+* `bzip2`
 
 Installation
 ------------
